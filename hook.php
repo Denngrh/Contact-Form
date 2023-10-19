@@ -59,7 +59,7 @@ function example()
         </script>
 <?php
     } else {
-        include('views/example.php');
+        include('views/for_shortcode.php');
     }
 }
 
@@ -153,7 +153,7 @@ function insert_data_callback()
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: '".addslashes($mail->ErrorInfo)."', 
+                            text: '" . addslashes($mail->ErrorInfo) . "', 
                         }).then(function() {
                             window.history.back();
                         });
@@ -250,83 +250,92 @@ function ambil_data_callback()
     if (isset($_POST['submit'])) {
         $id = $_POST['id'];
         $name = $_POST['nama'];
-        $pdg =  $_POST['padding'];
+        $pdg =  $_POST['padding'].'px';
         $font_family = $_POST['font_family'];
         $ft = $_POST['ft_color'];
         $btn_clr = $_POST['button_color'];
         $ft_clr = $_POST['font_color'];
         $btn_clr_hover = $_POST['button_color_hover'];
         $ft_clr_hover = $_POST['font_color_hover'];
+        
 
+        // Retrieve the current CSS values from the database
         global $wpdb;
-        $update_table_custom = $wpdb->prefix . 'custom_form';
+        $existing_css = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}custom_form WHERE id_style = $id", ARRAY_A);
 
         $data = array(
+            'nama' => $name,
             'padding' => $pdg,
             'font_family' => $font_family,
             'ft_color' => $ft,
             'button_color' => $btn_clr,
             'font_color' => $ft_clr,
             'buttton_color_hover' => $btn_clr_hover,
-            'font_color_hover' => $ft_clr_hover,
-            'nama' => $name,
+            'font_color_hover' => $ft_clr_hover
         );
+
+        // Check if CSS values have changed
+        if ($existing_css) {
+            foreach ($existing_css as $key => $value) {
+                if ($value !== $data[$key]) {
+                    $css_changed = true;
+                    break;
+                }
+            }
+        } else {
+            // If no CSS data exists, consider it changed
+            $css_changed = true;
+        }
+
+        $update_table_custom = $wpdb->prefix . 'custom_form';
         $where = array(
             'id_style' => $id
         );
-    }
-    $result = $wpdb->update($update_table_custom, $data, $where);
-    var_dump($result);
 
-    if (isset($_POST['check_first']) && $_POST['check_first'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
-        update_option('check_first_option', true);
-    } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
-        update_option('check_first_option', false);
-    }
+        $result = $wpdb->update($update_table_custom, $data, $where);
+        var_dump($result);
 
-    //last
-    if (isset($_POST['check_last']) && $_POST['check_last'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
-        update_option('check_last_option', true);
-    } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
-        update_option('check_last_option', false);
-    }
+        if (isset($_POST['check_first']) && $_POST['check_first'] === 'on') {
+            // Checkbox tercentang, lakukan sesuatu
+            update_option('check_first_option', true);
+        } else {
+            // Checkbox tidak tercentang, lakukan sesuatu
+            update_option('check_first_option', false);
+        }
 
-    //address
-    if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
-        update_option('check_address_option', true);
-    } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
-        update_option('check_address_option', false);
-    }
+        //address
+        if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
+            // Checkbox tercentang, lakukan sesuatu
+            update_option('check_address_option', true);
+        } else {
+            // Checkbox tidak tercentang, lakukan sesuatu
+            update_option('check_address_option', false);
+        }
 
-    //address
-    if (isset($_POST['check_number']) && $_POST['check_number'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
-        update_option('check_number_option', true);
-    } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
-        update_option('check_number_option', false);
-    }
+        //address
+        if (isset($_POST['check_number']) && $_POST['check_number'] === 'on') {
+            // Checkbox tercentang, lakukan sesuatu
+            update_option('check_number_option', true);
+        } else {
+            // Checkbox tidak tercentang, lakukan sesuatu
+            update_option('check_number_option', false);
+        }
 
-    //address
-    if (isset($_POST['check_email']) && $_POST['check_email'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
-        update_option('check_email_option', true);
-    } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
-        update_option('check_email_option', false);
-    }
+        //address
+        if (isset($_POST['check_email']) && $_POST['check_email'] === 'on') {
+            // Checkbox tercentang, lakukan sesuatu
+            update_option('check_email_option', true);
+        } else {
+            // Checkbox tidak tercentang, lakukan sesuatu
+            update_option('check_email_option', false);
+        }
 
-    if ($result) {
-        wp_redirect(admin_url('admin.php?page=Example-form'));
-        exit;
-    } else {
-        echo 'Terjadi kesalahan saat melakukan update data.';
+        if ($result !== false) {
+            wp_redirect(admin_url('admin.php?page=Example-form'));
+            exit;
+        } else {
+            echo 'Terjadi kesalahan saat melakukan update data.';
+        }
     }
 }
 //Save Setting
