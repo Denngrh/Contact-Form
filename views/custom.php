@@ -4,7 +4,7 @@
 global $wpdb;
 $custom_table = $wpdb->prefix . 'custom_form';
 $data = $wpdb->get_row("SELECT * FROM $custom_table ");
-if ($data) {
+$css_data = json_decode($data->style_form, true); {
 ?>
 
     <body style="background-color:#EDEDED;">
@@ -14,7 +14,7 @@ if ($data) {
                     <div class="col-md-6" style="margin-left:-45px;">
                         <div class="card px-5 py-5 col-md-12" style="background-color:#F3EFE0;border:3px solid #2B2730;">
                             <div class="card-title pt-3">
-                                <h3 style="font-family:berlin sans fb;color:#22A39F;"> Pilih Form</h3>
+                                <h3 style="font-family:berlin sans fb;color:#22A39F;"> <?php echo $css_data['title']; ?></h3>
                             </div>
                             <div class="yow card-body">
                                 <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
@@ -76,11 +76,10 @@ if ($data) {
                         <!-- Custom Form -->
                         <h6 class="mt-3" style="font-family:berlin sans fb;color:#FD841F;"> CUSTOM FORM </h6>
                         <input type="hidden" name="id" value="<?php echo $data->id_style; ?>">
-                        <input type="hidden" name="nama" id="" value="<?php echo $data->nama; ?>">
 
-                        <div class="form-group mt-3 d-flex" >
+                        <div class="form-group mt-3 d-flex">
                             <label class="" style="font-size: 20px;"> Title </label>
-                            <input class="form-control" type="text" name="slider_name" value="<?php echo $data->nama; ?>" style="width:46%;margin-left:10px;height:5px;">
+                            <input class="form-control" type="text" name="slider_name" value="<?php echo $css_data['title']; ?>" style="width:46%;margin-left:10px;height:5px;">
                         </div>
 
                         <div class="accordion my-3" id="accordionPanelsStayOpenExample1">
@@ -95,7 +94,7 @@ if ($data) {
                                         <div class="form-group px-md-4 px-4 mt-2 d-flex justify-content-between">
                                             <label>Title Size</label>
                                             <select name="title_size" id="title_size">
-                                                <!-- <option value="<?php echo $css_data['title_size']; ?>"><?php echo $css_data['title_size']; ?></option> -->
+                                                <option value="<?php echo $css_data['title_size']; ?>"><?php echo $css_data['title_size']; ?></option>
                                                 <option value="h1" style="font-size:40px;">h1</option>
                                                 <option value="h2" style="font-size:34px;">h2</option>
                                                 <option value="h3" style="font-size:28px;">h3</option>
@@ -107,7 +106,7 @@ if ($data) {
                                         <div class="select px-md-4 px-4 mt-2 d-flex justify-content-between">
                                             <label>Font</label>
                                             <select name="title_fam" id="title_fam">
-                                                <!-- <option value="<?php echo $css_data['title_fam']; ?>"><?php echo $css_data['title_fam']; ?></option> -->
+                                                <option value="<?php echo $css_data['title_fam']; ?>"><?php echo $css_data['title_fam']; ?></option>
                                                 <option value="sans-serif" style="font-family:sans-serif;">Sans Serif</option>
                                                 <option value="serif" style="font-family:serif;">Serif</option>
                                                 <option value="fantasy" style="font-family:fantasy;">Fantasy</option>
@@ -133,13 +132,13 @@ if ($data) {
                                     <div class="accordion-body">
                                         <div class="px-4 d-flex justify-content-between px-md-4 ">
                                             <label>Padding</label>
-                                            <input type="number" class="form-control border border-1" id="padding" name="padding" style="background-color:white;height:3px;width:50%;margin-left:48px;" value="<?php echo rtrim($data->padding, 'px'); ?>">
+                                            <input type="number" class="form-control border border-1" id="padding" name="padding" style="background-color:white;height:3px;width:50%;margin-left:48px;" value="<?php echo str_replace('px', '', $css_data['padding']); ?>">
                                             <span class="input-group-text" style="padding:2px;">px</span>
                                         </div>
                                         <div class="select px-md-4 px-4 d-flex justify-content-between mt-2">
                                             <label>Font</label>
                                             <select name="desc_fam" id="desc_fam">
-                                                <!-- <option value="<?php echo $css_data['desc_fam']; ?>"><?php echo $css_data['desc_fam']; ?></option> -->
+                                                <option value="<?php echo $css_data['font_fam']; ?>"><?php echo $css_data['font_fam']; ?></option>
                                                 <option value="sans-serif" style="font-family:sans-serif;">Sans Serif</option>
                                                 <option value="serif" style="font-family:serif;">Serif</option>
                                                 <option value="fantasy" style="font-family:fantasy;">Fantasy</option>
@@ -148,46 +147,68 @@ if ($data) {
                                         </div>
                                         <div class="form-group px-md-4 px-4  mt-2 d-flex justify-content-between">
                                             <label> Color </label>
-                                            <input class="form-control" type="color" name="ft_color" placeholder="color" style="width:50%;height:25px;" value="<?php echo $data->ft_color; ?>">
+                                            <input class="form-control" type="color" name="ft_color" placeholder="color" style="width:50%;height:25px;" value="<?php echo $css_data['ft_color']; ?>">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="frm form-group col-md-8">
-                            <label for="recipient-name" class="col-form-label">Padding:</label>
-                            <input type="text" class="form-control" id="padding" name="padding" style="background-color:white; border:none;" value="<?php echo $data->padding; ?>">
+                        <div id="border_form" class="accordion my-3" id="accordionPanelsStayOpenExample5">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse6" aria-expanded="false" aria-controls="panelsStayOpen-collapse6">
+                                        Border
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse show">
+                                    <div class="accordion-body d-flex justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="border_option" id="border_none_input" value="none">
+                                            <label class="form-check-label" for="border_none" id_="border_none_label">
+                                                None
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="border_option" id="border_show_input" value="1px solid #d2d2d2">
+                                            <label class="form-check-label" for="border_show" id="border_show_label">
+                                                Show
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="frm form-group col-md-8">
-                            <label for="recipient-name" class="col-form-label">Font :</label>
-                            <input type="text" class="form-control" id="font_family" name="font_family" style="background-color:white; border:none;" value="<?php echo $data->font_family; ?>">
-                        </div>
-                        <div class="frm form-group col-md-2 ">
-                            <label for="recipient-name" class="col-form-label">Font color:</label>
-                            <input type="color" class="form-control" id="ft_collor" name="ft_color" value="<?php echo $data->ft_color; ?>">
-                        </div> -->
                         <hr class="my-4">
                         <h6 class="mt-3" style="font-family:berlin sans fb;color:#FD841F;"> CUSTOM BUTTON </h6>
-                        <h7> First Color</h7>
-                        <div class="row">
-                            <div class="frm form-group col-md-4 ">
-                                <label for="recipient-name" class="col-form-label">Background color:</label>
-                                <input type="color" class="form-control" id="button_color" name="button_color" style="width:70px;" value="<?php echo $data->button_color; ?>">
-                            </div>
-                            <div class="frm form-group col-md-4 ms-4">
-                                <label for="recipient-name" class="col-form-label">Font Color :</label>
-                                <input type="color" class="form-control" id="font_color-name" name="font_color" style="width:70px;" value="<?php echo $data->font_color; ?>">
-                            </div>
-                        </div>
-                        <h7 class="mt-2"> Hover </h7>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="recipient-name" class="col-form-label">Background color:</label>
-                                <input type="color" class="form-control" id="button_color_hover-color" name="button_color_hover" style="width:70px;" value="<?php echo $data->buttton_color_hover; ?>">
-                            </div>
-                            <div class="form-group col-md-4 ms-4">
-                                <label for="recipient-name" class="col-form-label">Font Color :</label>
-                                <input type="color" class="form-control" id="font_color_hover-name" name="font_color_hover" style="width:70px;" value="<?php echo $data->font_color_hover; ?>">
+                        <div class="accordion my-3" id="accordionPanelsStayOpenExample3">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse4" aria-expanded="false" aria-controls="panelsStayOpen-collapse4">
+                                        Button Custom
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapse4" class="accordion-collapse collapse show">
+                                    <div class="accordion-body">
+                                        <div class="form-group px-md-4 px-4  mt-2 d-flex justify-content-between">
+                                            <label id="dots_color_label"> backround color </label>
+                                            <input class="form-control" type="color" id="button_color" name="button_color" style="width:50%;height:25px;" value="<?php echo $css_data['backround_color']; ?>">
+                                        </div>
+                                        <div class="form-group px-md-4 px-4  mt-2 d-flex justify-content-between">
+                                            <label> Font Color </label>
+                                            <input class="form-control" type="color" id="font_color-name" name="font_color" style="width:50%;height:25px;" value="<?php echo $css_data['font_color']; ?>">
+                                        </div>
+                                        <hr class="my-3 ms-4" width="75%;">
+                                        <p class="ms-md-4"> Hover </p>
+                                        <div class="form-group px-md-4 px-4 mt-2 d-flex justify-content-between">
+                                            <label> backround color </label>
+                                            <input class="form-control" type="color" id="button_color_hover-color" name="button_color_hover" style="width:50%;height:25px;" value="<?php echo $css_data['hover_color']; ?>">
+                                        </div>
+                                        <div class="form-group px-md-4 px-4 mt-2 d-flex justify-content-between">
+                                            <label> Font Color </label>
+                                            <input class="form-control" type="color" id="font_color_hover-name" name="font_color_hover" style="width:50%;height:25px;" value="<?php echo $css_data['font_hover']; ?>">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         </form>
@@ -197,6 +218,22 @@ if ($data) {
             </div>
         </div>
     </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const borderOption = "<?php echo $css_data['border']; ?>";
+
+            // Cari elemen radio button dengan ID yang sesuai
+            var borderNoneInput = document.getElementById('border_none_input');
+            var borderShowInput = document.getElementById('border_show_input');
+
+            // Tentukan radio button mana yang harus dicentang berdasarkan nilai borderOption
+            if (borderOption === 'none') {
+                borderNoneInput.checked = true;
+            } else if (borderOption === '1px solid #d2d2d2') {
+                borderShowInput.checked = true;
+            }
+        });
+    </script>
     <script>
         $(document).ready(function() {
             // Menutup semua accordion saat halaman dimuat pertama kali
@@ -246,13 +283,13 @@ if ($data) {
             border-radius: 10px;
             font-family: sans-serif;
             border: none;
-            background-color: <?php echo $data->button_color; ?>;
-            color: <?php echo $data->font_color; ?>;
+            background-color: <?php echo $css_data['backround_color']; ?>;
+            color: <?php echo $css_data['font_color']; ?>;
         }
 
         .button_custom:hover {
-            background-color: <?php echo $data->buttton_color_hover; ?>;
-            color: <?php echo $data->font_color_hover; ?>;
+            background-color: <?php echo $css_data['hover_color']; ?>;
+            color: <?php echo $css_data['font_hover']; ?>;
         }
 
         input[type=text],

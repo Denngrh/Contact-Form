@@ -8,7 +8,7 @@ $email = get_option('check_email_option', false);
 global $wpdb;
 $custom_table = $wpdb->prefix . 'custom_form';
 $data = $wpdb->get_row("SELECT * FROM $custom_table ");
-if ($data) {
+$css_data = json_decode($data->style_form, true); {
 ?>
 
     <head>
@@ -82,9 +82,9 @@ if ($data) {
         }
 
         .yow {
-            padding: <?php echo $data->padding; ?>;
-            font-family: <?php echo $data->font_family; ?>;
-            color: <?php echo $data->ft_color; ?>
+            padding: <?php echo $css_data['padding']; ?>;
+            font-family: <?php echo $css_data['font_fam']; ?>;
+            color: <?php echo $css_data['ft_color']; ?>;
         }
 
         .button_custom {
@@ -92,15 +92,17 @@ if ($data) {
             border-radius: 10px;
             font-family: sans-serif;
             border: none;
-            background-color: <?php echo $data->button_color; ?>;
-            color: <?php echo $data->font_color; ?>;
+            background-color: <?php echo $css_data['backround_color']; ?>;
+            color: <?php echo $css_data['font_color']; ?>;
         }
 
         .button_custom:hover {
-            background-color: <?php echo $data->buttton_color_hover; ?>;
-            color: <?php echo $data->font_color_hover; ?>;
+            background-color: <?php echo $css_data['hover_color']; ?>;
+            color: <?php echo $css_data['font_hover']; ?>;
         }
-
+        .card {
+            border: <?php echo $css_data['border']; ?>;
+        }
         input[type=text],
         .tes {
             background-color: #fafafa;

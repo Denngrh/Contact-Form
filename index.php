@@ -61,36 +61,58 @@ function create_setting()
     }
 }
 
-// CREATE Custom
 function create_table_custom_form()
 {
     global $wpdb;
-
     $custom_table = $wpdb->prefix . 'custom_form';
     $custom_exist = $wpdb->get_var("SHOW TABLES LIKE '$custom_table'") === $custom_table;
+
     if (!$custom_exist) {
+        // Jika tabel tidak ada, maka buat tabel baru
+        $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE $custom_table (
-        id_style bigint(80) unsigned NOT NULL AUTO_INCREMENT,
-        nama VARCHAR(80) DEFAULT NULL,
-        padding VARCHAR(80) DEFAULT NULL,
-        font_family VARCHAR(80) DEFAULT NULL,
-        ft_color VARCHAR(80) DEFAULT NULL,
-        button_color VARCHAR(80) DEFAULT NULL,
-        font_color VARCHAR(80) DEFAULT NULL,
-        buttton_color_hover VARCHAR(80) DEFAULT NULL,
-        font_color_hover VARCHAR(80) DEFAULT NULL,
-        PRIMARY KEY (`id_style`)
-    )";
+            id_style INT(11) NOT NULL AUTO_INCREMENT,
+            style_form LONGTEXT NOT NULL,
+            PRIMARY KEY (id_style)
+        ) $charset_collate;";
+
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
-        $wpdb->insert(
-            $custom_table,
-            array(
-                'nama' => 'form_first',
-            )
+
+        // Data gaya kustom
+        $style_data = array(
+            'title' => 'Contact Us',
+            'title_size' => 'h1',
+            'title_fam' => 'sans-serif',
+            'title_color' => '#000000',
+            'font_fam' => 'sans-serif',
+            'padding' => '10px',
+            'ft_color' => '#000000',
+            'backround_color' => '#000000',
+            'font_color' => '#000000',
+            'hover_color' => '#fafafa',
+            'font_hover' => '#de1414',
+            'border' => '1px solid #d2d2d2',
         );
+
+        $json_style_data = json_encode($style_data);
+
+        // Insert data ke tabel custom_form
+        $result_style = $wpdb->insert(
+            $custom_table,
+            array('style_form' => $json_style_data)
+        );
+
+        if ($result_style) {
+            // Insert berhasil
+        } else {
+            // Insert gagal, mungkin ada kesalahan
+            echo $wpdb->last_error;
+        }
     }
 }
+
+
 
 //Delete Custom
 function drop_table_uninstall()
