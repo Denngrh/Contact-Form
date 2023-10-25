@@ -63,11 +63,12 @@
                                                         <?php echo $message; ?>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="#" class="edit-button" data-id="<?php echo $result->id; ?>" data-bs-toggle="modal" data-bs-target="#showModal">
+                                                        <a href="#" class="edit-button" style="text-decoration: none;" data-id="<?php echo $result->id; ?>" data-name="<?php echo $result->name; ?>" data-address="<?php echo $result->address; ?>" data-phone="<?php echo $result->phone; ?>" data-email="<?php echo $result->email; ?>" data-message="<?php echo $result->message; ?>">
                                                             <i class="fa-regular fa-eye" style="color: #216ef2; height: 40px; width: 30px; border-radius: 5px; padding: 5px;"></i>
                                                         </a>
-
-                                                        <a href="<?php echo esc_url(admin_url('admin-post.php?action=delete_data&id=' . $result->id)); ?>" class="Delete"><box-icon name='trash' type='solid' color='red' style="height:30px; width:30px; border-radius:5px; padding:5px;"></box-icon></a>
+                                                        <a href="<?php echo esc_url(admin_url('admin-post.php?action=delete_data&id=' . $result->id)); ?>" class="Delete">
+                                                            <box-icon name='trash' type='solid' color='red' style="height:30px; width:30px; border-radius:5px; padding:5px;"></box-icon>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                         <?php }
@@ -83,14 +84,48 @@
     </div>
     <!-- modal -->
     <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog-centered modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Data akan ditampilkan di sini -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="txt_tgljamView">Name</label>
+                                <input type="text" name="name-modal" id="name_modal" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="txt_tgljamupdateView">Phone</label>
+                                <input type="text" name="phone-modal" id="phone_modal" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="txt_tanggalView">Email</label>
+                                <input type="text" id="email_modal" name="email-modal" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txt_tgljamView">Addres</label>
+                                <textarea name="addres_modal" id="addres_modal" readonly id="" cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txt_tgljamupdateView">Message</label>
+                                <textarea name="message_modal" id="message_modal" readonly cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -114,7 +149,7 @@
     .dataTables_length select {
         width: 45px;
         border-radius: 5px;
-        
+
     }
 
     .dataTables_filter input {
@@ -125,41 +160,42 @@
         margin-bottom: 10px;
         height: 10px;
     }
+
     .dataTables_filter input:hover {
         background-color: #f2f2f2;
     }
+
     .dataTables_filter input:focus {
         outline: none;
         border-color: #007bff;
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
-    /* Gaya untuk tombol "Prev" dan "Next" */
-   /* Mengganti warna tombol "Prev" dan "Next" */
-.dataTables_wrapper .dataTables_paginate .paginate_button.previous, 
-.dataTables_wrapper .dataTables_paginate .paginate_button.next {
-    background-color: #FD841F;
-    color: white;
-    margin: 2px;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: -20px !important;
-}
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+        background-color: #FD841F;
+        color: white;
+        margin: 2px;
+        padding: 6px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: -20px !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
+        background-color: #c9dd00;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next.current {
+        background-color: #c9dd00;
+    }
 
-/* Mengubah warna tombol "Prev" dan "Next" ketika dihover */
-.dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover, 
-.dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
-    background-color: #c9dd00;
-}
-
-/* Mengubah warna tombol "Prev" dan "Next" ketika sedang aktif (current) */
-.dataTables_wrapper .dataTables_paginate .paginate_button.previous.current, 
-.dataTables_wrapper .dataTables_paginate .paginate_button.next.current {
-    background-color: #c9dd00;
-}
-
+    textarea {
+        overflow-y: scroll;
+        height: 100px;
+        resize: none;
+    }
 </style>
 <script>
     $(document).ready(function() {
@@ -206,24 +242,23 @@
 </script>
 <script>
     $(document).ready(function() {
-        $(".edit-button").click(function(e) {
-            e.preventDefault();
-            var id = $(this).data("id");
-            $.ajax({
-                url: "<?php echo admin_url('admin-ajax.php'); ?>",
-                type: "POST",
-                data: {
-                    action: "get_data",
-                    id: id
-                },
-                success: function(response) {
-                    $("#showModal .modal-body").html(response);
-                    $("#showModal").modal("show");
-                },
-                error: function() {
-                    alert("Terjadi kesalahan saat mengambil data.");
-                }
-            });
+        $('.edit-button').on('click', function() {
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var address = $(this).data('address');
+            var phone = $(this).data('phone');
+            var email = $(this).data('email');
+            var message = $(this).data('message');
+
+            //Menampilkan data yang telah diambil ke view modal
+            $('#showModal').find('#name_modal').val(name);
+            $('#showModal').find('#phone_modal').val(phone);
+            $('#showModal').find('#email_modal').val(email);
+            $('#showModal').find('#addres_modal').val(address);
+            $('#showModal').find('#message_modal').val(message);
+
+            // Menampilkan modal
+            $('#showModal').modal('show');
         });
     });
 </script>

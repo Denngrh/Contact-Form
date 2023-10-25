@@ -112,33 +112,59 @@ function insert_data_callback()
             $smtp_password = $result->password;
 
             $mail = new PHPMailer();
-            $mail->isSMTP();
+            $mail->isSMTP(true);
+            $mail->isHTML(true);
             $mail->Host = $smtp_host;
             $mail->SMTPAuth = true;
             $mail->Username = $smtp_username;
             $mail->Password = $smtp_password;
             $mail->Port = $smtp_port;
-            $mail->setFrom($smtp_username, 'your form');
+            $mail->setFrom($smtp_username, 'Your Form');
             $mail->addAddress($to);
             $mail->Subject = 'Send data';
-
-            $body = '';
-
-            if (!empty($first)) {
-                $body .= "First: $first\n";
-            }
-            if (!empty($address)) {
-                $body .= "Address: $address\n";
-            }
-            if (!empty($number)) {
-                $body .= "Number: $number\n";
-            }
-            if (!empty($email)) {
-                $body .= "Email: $email\n";
-            }
-            if (!empty($pesan)) {
-                $body .= "Message: $pesan\n";
-            }
+            $body = '<html>
+            <head>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                    }
+                    .header {
+                        text-align: center;
+                    }
+                    .logo {
+                        max-width: 150px;
+                    }
+                    .message {
+                        margin-top: 20px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <img src="https://github.com/Denngrh/Smt-Contact-Form/assets/112230212/43c74a3f-94e5-4973-8487-0c5e68526042" alt="Logo" class="logo">
+                        <h2 style="margin-top: 10px;">Thank You for Your Message</h2>
+                    </div>
+                    <div class="message">
+                        <p style="color: #333;">Hi ' . $first . ',</p>
+                        <p style="color: #333;">Thank you for your message. Here are the details you provided:</p>
+                        <ul>
+                            <li><strong>Name:</strong> ' . $first . '</li>
+                            <li><strong>Address:</strong> ' . $address . '</li>
+                            <li><strong>Phone Number:</strong> ' . $number . '</li>
+                            <li><strong>Email:</strong> ' . $email . '</li>
+                            <li><strong>Message:</strong> ' . $pesan . '</li>
+                        </ul>
+                        <p style="color: #333;">Thank you for sending the message.</p>
+                    </div>
+                </div>
+            </body>
+            </html>';
 
             $mail->Body = $body;
             if ($mail->send()) {
@@ -249,92 +275,97 @@ function ambil_data_callback()
 {
     if (isset($_POST['submit'])) {
         $id = $_POST['id'];
-        $name = $_POST['nama'];
-        $pdg =  $_POST['padding'].'px';
-        $font_family = $_POST['font_family'];
+        $title = $_POST['slider_name'];
+        $title_size = $_POST['title_size'];
+        $title_font = $_POST['title_fam'];
+        $title_color = $_POST['title_color'];
+        $pdg = $_POST['padding'] . 'px';
+        $font_fam = $_POST['font_fam'];
         $ft = $_POST['ft_color'];
+        $border = sanitize_text_field($_POST['border_option']);
         $btn_clr = $_POST['button_color'];
         $ft_clr = $_POST['font_color'];
         $btn_clr_hover = $_POST['button_color_hover'];
         $ft_clr_hover = $_POST['font_color_hover'];
-        
+        $text_alignment = $_POST['text_alignment'];
+        $button_alignment = $_POST['button_alignment'];
+
 
         // Retrieve the current CSS values from the database
         global $wpdb;
         $existing_css = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}custom_form WHERE id_style = $id", ARRAY_A);
 
-        $data = array(
-            'nama' => $name,
-            'padding' => $pdg,
-            'font_family' => $font_family,
-            'ft_color' => $ft,
-            'button_color' => $btn_clr,
-            'font_color' => $ft_clr,
-            'buttton_color_hover' => $btn_clr_hover,
-            'font_color_hover' => $ft_clr_hover
-        );
-
-        // Check if CSS values have changed
+        // Jika data CSS sudah ada dalam database
         if ($existing_css) {
-            foreach ($existing_css as $key => $value) {
-                if ($value !== $data[$key]) {
-                    $css_changed = true;
-                    break;
-                }
+            // Ambil data JSON dari database
+            $json_data = json_decode($existing_css['style_form'], true);
+
+            // Perbarui data JSON sesuai dengan input yang diterima
+            $json_data['title'] = $title;
+            $json_data['title_size'] = $title_size;
+            $json_data['title_fam'] = $title_font;
+            $json_data['title_color'] = $title_color;
+            $json_data['padding'] = $pdg;
+            $json_data['font_fam'] = $font_fam;
+            $json_data['ft_color'] = $ft;
+            $json_data['border'] = $border;
+            $json_data['button_color'] = $btn_clr;
+            $json_data['font_color'] = $ft_clr;
+            $json_data['buttton_color_hover'] = $btn_clr_hover;
+            $json_data['font_color_hover'] = $ft_clr_hover;
+            $json_data['text_alignment'] = $text_alignment;
+            $json_data['button_alignment'] = $button_alignment;
+
+            if (isset($_POST['check_first']) && $_POST['check_first'] === 'on') {
+                // Checkbox tercentang, lakukan sesuatu
+                update_option('check_first_option', true);
+            } else {
+                // Checkbox tidak tercentang, lakukan sesuatu
+                update_option('check_first_option', false);
             }
-        } else {
-            // If no CSS data exists, consider it changed
-            $css_changed = true;
-        }
 
-        $update_table_custom = $wpdb->prefix . 'custom_form';
-        $where = array(
-            'id_style' => $id
-        );
+            //address
+            if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
+                // Checkbox tercentang, lakukan sesuatu
+                update_option('check_address_option', true);
+            } else {
+                // Checkbox tidak tercentang, lakukan sesuatu
+                update_option('check_address_option', false);
+            }
 
-        $result = $wpdb->update($update_table_custom, $data, $where);
-        var_dump($result);
+            //address
+            if (isset($_POST['check_number']) && $_POST['check_number'] === 'on') {
+                // Checkbox tercentang, lakukan sesuatu
+                update_option('check_number_option', true);
+            } else {
+                // Checkbox tidak tercentang, lakukan sesuatu
+                update_option('check_number_option', false);
+            }
 
-        if (isset($_POST['check_first']) && $_POST['check_first'] === 'on') {
-            // Checkbox tercentang, lakukan sesuatu
-            update_option('check_first_option', true);
-        } else {
-            // Checkbox tidak tercentang, lakukan sesuatu
-            update_option('check_first_option', false);
-        }
+            //address
+            if (isset($_POST['check_email']) && $_POST['check_email'] === 'on') {
+                // Checkbox tercentang, lakukan sesuatu
+                update_option('check_email_option', true);
+            } else {
+                // Checkbox tidak tercentang, lakukan sesuatu
+                update_option('check_email_option', false);
+            }
 
-        //address
-        if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
-            // Checkbox tercentang, lakukan sesuatu
-            update_option('check_address_option', true);
-        } else {
-            // Checkbox tidak tercentang, lakukan sesuatu
-            update_option('check_address_option', false);
-        }
+            $updated_json_data = json_encode($json_data);
 
-        //address
-        if (isset($_POST['check_number']) && $_POST['check_number'] === 'on') {
-            // Checkbox tercentang, lakukan sesuatu
-            update_option('check_number_option', true);
-        } else {
-            // Checkbox tidak tercentang, lakukan sesuatu
-            update_option('check_number_option', false);
-        }
+            // Perbarui data di dalam database
+            $result = $wpdb->update(
+                $wpdb->prefix . 'custom_form',
+                array('style_form' => $updated_json_data),
+                array('id_style' => $id)
+            );
 
-        //address
-        if (isset($_POST['check_email']) && $_POST['check_email'] === 'on') {
-            // Checkbox tercentang, lakukan sesuatu
-            update_option('check_email_option', true);
-        } else {
-            // Checkbox tidak tercentang, lakukan sesuatu
-            update_option('check_email_option', false);
-        }
-
-        if ($result !== false) {
-            wp_redirect(admin_url('admin.php?page=Example-form'));
-            exit;
-        } else {
-            echo 'Terjadi kesalahan saat melakukan update data.';
+            if ($result !== false) {
+                wp_redirect(admin_url('admin.php?page=Style-form'));
+                exit;
+            } else {
+                echo 'Terjadi kesalahan saat melakukan update data.';
+            }
         }
     }
 }
@@ -393,48 +424,6 @@ function display_page_template($template)
     }
     return $template;
 }
-function get_data_callback()
-{
-    $id = $_POST['id'];
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'contact_form';
-
-    $data = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $id");
-
-    if ($data) {
-        // Inisialisasi tampilan dengan format yang rapi
-        $displayData = '<ul>';
-
-        if (!empty($data->name)) {
-            $displayData .= '<li><strong>Name:</strong> ' . esc_html($data->name) . '</li>';
-        }
-        if (!empty($data->address)) {
-            $displayData .= '<li><strong>Address:</strong> ' . esc_html($data->address) . '</li>';
-        }
-        if (!empty($data->phone)) {
-            $displayData .= '<li><strong>Phone:</strong> ' . esc_html($data->phone) . '</li>';
-        }
-        if (!empty($data->email)) {
-            $displayData .= '<li><strong>Email:</strong> ' . esc_html($data->email) . '</li>';
-        }
-        if (!empty($data->message)) {
-            $displayData .= '<li><strong>Message:</strong> ' . esc_html($data->message) . '</li>';
-        }
-
-        $displayData .= '</ul>';
-
-        // Mengembalikan data dalam format HTML yang rapi
-        echo $displayData;
-    } else {
-        echo "Data tidak ditemukan.";
-    }
-
-    wp_die(); // Penting untuk mengakhiri koneksi dan mengembalikan respons
-}
-
-
-add_action('wp_ajax_get_data', 'get_data_callback');
-add_action('wp_ajax_nopriv_get_data', 'get_data_callback');
 
 add_action('admin_post_save_settings', 'save_settings');
 

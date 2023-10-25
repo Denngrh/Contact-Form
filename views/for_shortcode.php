@@ -26,40 +26,45 @@ $css_data = json_decode($data->style_form, true); {
             <div class="container">
                 <div class="row">
                     <div class="card">
+                        <div class="card-title pt-3  <?php echo $css_data['text_alignment']; ?>">
+                            <<?php echo $css_data['title_size']; ?> style="color: <?php echo $css_data['title_color']; ?>; font-family:  <?php echo $css_data['title_fam']; ?>;"> <?php echo $css_data['title']; ?></<?php echo $css_data['title_size']; ?>>
+                        </div>
                         <div class="yow card-body">
                             <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
                                 <input type="hidden" name="action" value="insert_data">
                                 <?php
                                 if ($first) {
-                                    echo '<div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Name</label>
-                        <input type="text" class="form-control col-md-8" id="first" name="first" placeholder=" Name" autocomplete="off">
-                    </div>';
+                                    echo ' <div class="form-group">
+                                        <label for="recipient-name" class="col-form-label">Name</label>
+                                        <input type="text" class="form-control col-md-8" id="first" name="first" placeholder="Name" autocomplete="off" maxlength="25">
+                                    </div>';
                                 }
                                 if ($address) {
-                                    echo '<div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Addres</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" autocomplete="off">
-                    </div>';
+                                     echo '<div class="form-group">
+                                        <label for="recipient-name" class="col-form-label">Addres</label>
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" autocomplete="off" maxlength="80">
+                                    </div>';
                                 }
                                 if ($phone) {
                                     echo '<div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Phone</label>
-                        <input type="text" class="form-control" id="number" name="number" placeholder="Your number" autocomplete="off">
-                    </div>';
+                                        <label for="recipient-name" class="col-form-label">Phone</label>
+                                        <input type="text" class="form-control" id="number" name="number" placeholder="Number" autocomplete="off" maxlength="14">
+                                    </div>';
                                 }
                                 if ($email) {
                                     echo '<div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Your gmail">  
-                    </div>';
+                                        <label for="recipient-name" class="col-form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" maxlength="25">  
+                                    </div>';
                                 }
                                 ?>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Message</label>
-                                    <div id="editor" name="text"></div>
+                                    <textarea name="text" id="editor"></textarea>
                                 </div>
-                                <button type="submit" name="submit" class="button_custom col-md-3 mt-4 offset-md-9">Send</button>
+                                <div class="<?php echo $css_data['button_alignment']; ?>">
+                                    <button type="submit" name="submit" class="button_custom col-md-3 mt-4">Send</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -74,12 +79,22 @@ $css_data = json_decode($data->style_form, true); {
                 console.error(error);
             });
     </script>
+    <script>
+        document.getElementById("number").addEventListener("input", function() {
+            var input = this.value;
+            // Hapus karakter yang bukan angka
+            this.value = input.replace(/\D/g, '');
+        });
+    </script>
+
 
     <style>
         .ck-editor__editable[role="textbox"] {
-            /* editing area */
+            color: black;
+            background-color: white;
             min-height: 130px;
         }
+
 
         .yow {
             padding: <?php echo $css_data['padding']; ?>;
@@ -100,9 +115,11 @@ $css_data = json_decode($data->style_form, true); {
             background-color: <?php echo $css_data['hover_color']; ?>;
             color: <?php echo $css_data['font_hover']; ?>;
         }
+
         .card {
             border: <?php echo $css_data['border']; ?>;
         }
+
         input[type=text],
         .tes {
             background-color: #fafafa;

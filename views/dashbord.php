@@ -92,7 +92,7 @@
 
 <style>
     .colored-toast.swal2-icon-success {
-        background-color: #F9F5EB !important;
+        background-color: #fd841f !important;
     }
 
     .colored-toast {

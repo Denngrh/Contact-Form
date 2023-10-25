@@ -13,8 +13,8 @@ $css_data = json_decode($data->style_form, true); {
                 <div class="row pt-3">
                     <div class="col-md-6" style="margin-left:-45px;">
                         <div class="card px-5 py-5 col-md-12" style="background-color:#F3EFE0;border:3px solid #2B2730;">
-                            <div class="card-title pt-3">
-                                <h3 style="font-family:berlin sans fb;color:#22A39F;"> <?php echo $css_data['title']; ?></h3>
+                            <div class="card-title pt-3 <?php echo $css_data['text_alignment']; ?>">
+                                <<?php echo $css_data['title_size']; ?> style="color: <?php echo $css_data['title_color']; ?>; font-family:  <?php echo $css_data['title_fam']; ?>;"> <?php echo $css_data['title']; ?></<?php echo $css_data['title_size']; ?>>
                             </div>
                             <div class="yow card-body">
                                 <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post">
@@ -22,7 +22,7 @@ $css_data = json_decode($data->style_form, true); {
                                     <div class="form-group my-3">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <input type="text" class="tes form-control" id="show_first" name="first" placeholder="Name">
+                                                <input type="text" class="tes form-control" id="show" name="first" placeholder="Name" readonly>
                                             </div>
                                             <div class="col-md-2">
                                                 <input type="checkbox" name="check_first" id="check_first" class="col-md-5">
@@ -32,7 +32,7 @@ $css_data = json_decode($data->style_form, true); {
                                     <div class="form-group my-3">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <input type="text" class="tes form-control" id="recipient-name" name="address" placeholder=" Address">
+                                                <input type="text" class="tes form-control" id="recipient-name" name="address" placeholder=" Address" readonly>
                                             </div>
                                             <div class="col-md-2">
                                                 <input type="checkbox" name="check_address" id="check_address">
@@ -42,7 +42,7 @@ $css_data = json_decode($data->style_form, true); {
                                     <div class="form-group my-3">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <input type="number" class="tes form-control" id="recipient-name" name="telpon" placeholder=" Phone">
+                                                <input type="number" class="tes form-control" id="recipient-name" name="telpon" placeholder=" Phone" readonly>
                                             </div>
                                             <div class="col-md-2">
                                                 <input type="checkbox" name="check_number" id="check_number">
@@ -52,7 +52,7 @@ $css_data = json_decode($data->style_form, true); {
                                     <div class="form-group my-3">
                                         <div class="row">
                                             <div class="col-md-10">
-                                                <input type="email" class="tes form-control" id="recipient-name" name="mail" placeholder=" Email">
+                                                <input type="email" class="tes form-control" id="recipient-name" name="mail" placeholder=" Email" readonly>
                                             </div>
                                             <div class="col-md-2">
                                                 <input type="checkbox" name="check_email" id="check_email">
@@ -60,7 +60,9 @@ $css_data = json_decode($data->style_form, true); {
                                         </div>
                                     </div>
                                     <div id="editor" name="text"></div>
-                                    <button type="button" class="button_custom col-md-3 mt-4 offset-md-9">Send</button>
+                                    <div class="<?php echo $css_data['button_alignment']; ?>">
+                                        <button type="button" class="button_custom col-md-3 mt-4 ">Send</button>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -73,10 +75,8 @@ $css_data = json_decode($data->style_form, true); {
                             </div>
                             <input type="submit" value="Save Custom" name="submit" id="submit" class="button-24 col-md-3 offset-md-3">
                         </div>
-                        <!-- Custom Form -->
                         <h6 class="mt-3" style="font-family:berlin sans fb;color:#FD841F;"> CUSTOM FORM </h6>
                         <input type="hidden" name="id" value="<?php echo $data->id_style; ?>">
-
                         <div class="form-group mt-3 d-flex">
                             <label class="" style="font-size: 20px;"> Title </label>
                             <input class="form-control" type="text" name="slider_name" value="<?php echo $css_data['title']; ?>" style="width:46%;margin-left:10px;height:5px;">
@@ -137,7 +137,7 @@ $css_data = json_decode($data->style_form, true); {
                                         </div>
                                         <div class="select px-md-4 px-4 d-flex justify-content-between mt-2">
                                             <label>Font</label>
-                                            <select name="desc_fam" id="desc_fam">
+                                            <select name="font_fam" id="font_fam">
                                                 <option value="<?php echo $css_data['font_fam']; ?>"><?php echo $css_data['font_fam']; ?></option>
                                                 <option value="sans-serif" style="font-family:sans-serif;">Sans Serif</option>
                                                 <option value="serif" style="font-family:serif;">Serif</option>
@@ -162,13 +162,13 @@ $css_data = json_decode($data->style_form, true); {
                                 </h2>
                                 <div id="panelsStayOpen-collapse6" class="accordion-collapse collapse show">
                                     <div class="accordion-body d-flex justify-content-between">
-                                        <div class="form-check">
+                                        <div class="form-check d-flex align-items-center">
                                             <input class="form-check-input" type="radio" name="border_option" id="border_none_input" value="none">
-                                            <label class="form-check-label" for="border_none" id_="border_none_label">
+                                            <label class="form-check-label" for="border_none" id="border_none_label">
                                                 None
                                             </label>
                                         </div>
-                                        <div class="form-check">
+                                        <div class="form-check d-flex align-items-center">
                                             <input class="form-check-input" type="radio" name="border_option" id="border_show_input" value="1px solid #d2d2d2">
                                             <label class="form-check-label" for="border_show" id="border_show_label">
                                                 Show
@@ -211,6 +211,67 @@ $css_data = json_decode($data->style_form, true); {
                                 </div>
                             </div>
                         </div>
+                        <h6 class="mt-2" style="font-family:berlin sans fb;color:#FD841F;"> CUSTOM POSITION </h6>
+                        <div class="accordion my-3" id="accordionPanelsStayOpenExample7">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse7" aria-expanded="false" aria-controls="panelsStayOpen-collapse7">
+                                        Position
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapse7" class="accordion-collapse collapse show">
+                                    <div class="accordion-body">
+                                        <div class="text-center mb-3">
+                                            <p>Position Title</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="text_alignment" id="text_left_input" value="text-left">
+                                                <label class="form-check-label" for="text_left_input">
+                                                    Left
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="text_alignment" id="text_center_input" value="text-center">
+                                                <label class="form-check-label" for="text_center_input">
+                                                    Center
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="text_alignment" id="text_right_input" value="text-end">
+                                                <label class="form-check-label" for="text_right_input">
+                                                    Right
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <hr class="my-3">
+                                        <div class="text-center">
+                                            <p>Position Button</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="button_alignment" id="button_left_input" value="text-left">
+                                                <label class="form-check-label" for="button_left_input">
+                                                    Left
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="button_alignment" id="button_center_input" value="text-center">
+                                                <label class="form-check-label" for="button_center_input">
+                                                    Center
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="button_alignment" id="button_right_input" value="text-end">
+                                                <label class="form-check-label" for="button_right_input">
+                                                    Right
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         </form>
                         <hr class="mt-5">
                     </div>
@@ -218,6 +279,47 @@ $css_data = json_decode($data->style_form, true); {
             </div>
         </div>
     </body>
+    <!-- Js for cheked position button -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cssData = "<?php echo $css_data['button_alignment']; ?>";
+
+            var textLeftInput = document.getElementById('button_left_input');
+            var textCenterInput = document.getElementById('button_center_input');
+            var textRightInput = document.getElementById('button_right_input');
+
+            // Setel radio button berdasarkan nilai yang diambil dari database
+            if (cssData === 'text-left') {
+                textLeftInput.checked = true;
+            } else if (cssData === 'text-center') {
+                textCenterInput.checked = true;
+            } else if (cssData === 'text-end') {
+                textRightInput.checked = true;
+            }
+        });
+    </script>
+
+    <!-- Js for cheked position title -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cssData = "<?php echo $css_data['text_alignment']; ?>";
+
+            var textLeftInput = document.getElementById('text_left_input');
+            var textCenterInput = document.getElementById('text_center_input');
+            var textRightInput = document.getElementById('text_right_input');
+
+            // Setel radio button berdasarkan nilai yang diambil dari database
+            if (cssData === 'text-left') {
+                textLeftInput.checked = true;
+            } else if (cssData === 'text-center') {
+                textCenterInput.checked = true;
+            } else if (cssData === 'text-end') {
+                textRightInput.checked = true;
+            }
+        });
+    </script>
+
+    <!-- Js for cheked border -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const borderOption = "<?php echo $css_data['border']; ?>";
@@ -234,12 +336,15 @@ $css_data = json_decode($data->style_form, true); {
             }
         });
     </script>
+
+    <!-- Js for accordion hide view -->
     <script>
         $(document).ready(function() {
-            // Menutup semua accordion saat halaman dimuat pertama kali
             $('.collapse').collapse('hide');
         });
     </script>
+
+    <!-- Js for Textarea editor -->
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'))
@@ -248,25 +353,38 @@ $css_data = json_decode($data->style_form, true); {
             });
     </script>
 
+    <!-- Js for set Checkbox -->
     <script>
-        // Ambil elemen checkbox menggunakan ID atau kelas
-        var checkbox = document.getElementById('check_first');
+        function saveCheckboxStatus(checkboxName) {
+            const checkbox = document.querySelector(`[name="${checkboxName}"]`);
+            if (checkbox) {
+                localStorage.setItem(checkboxName, checkbox.checked);
+            }
+        }
 
-        // Ambil elemen input yang ingin ditampilkan/sembunyikan
-        var input = document.getElementById('show_first');
+        function restoreCheckboxStatus(checkboxName) {
+            const checkbox = document.querySelector(`[name="${checkboxName}"]`);
+            if (checkbox) {
+                const checked = localStorage.getItem(checkboxName) === 'true';
+                checkbox.checked = checked;
+            }
+        }
 
-        // Tambahkan event listener ke checkbox
-        checkbox.addEventListener('change', function() {
-            // Periksa apakah checkbox dicentang
-            if (checkbox.checked) {
-                // Tampilkan input jika checkbox dicentang
-                input.style.display = 'block';
-            } else {
-                // Sembunyikan input jika checkbox tidak dicentang
-                input.style.display = 'none';
+        // Panggil fungsi restoreCheckboxStatus saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            restoreCheckboxStatus('check_first');
+            restoreCheckboxStatus('check_address');
+            restoreCheckboxStatus('check_number');
+            restoreCheckboxStatus('check_email');
+        });
+
+        document.addEventListener('change', (event) => {
+            if (event.target.type === 'checkbox') {
+                saveCheckboxStatus(event.target.name);
             }
         });
     </script>
+
 
     <style>
         .ck-editor__editable[role="textbox"] {

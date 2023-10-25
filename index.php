@@ -1,10 +1,10 @@
 <?php
 /*
 * Plugin Name: SMT - Contact - Form
-* Plugin URI: http://www.orangecreative.net 
+* Plugin URI: https://github.com/Denngrh/Smt-Contact-Form
 * Description: Plugin Contact Form adalah plugin untuk membuat dan mengelola formulir kontak yang dapat  disesuaikan di situs web WordPress Anda. Pengguna dapat dengan mudah mengatur tampilan formulir,mengaktifkan pengiriman email melalui protokol SMTP, dan mengintegrasikan formulir dengan akun Gmail mereka. 
 * Author: Baden Nugraha
-* Version: 1.0.0
+* Version: 2.1.1
 * Author URI: https://github.com/Denngrh
 * License: GPL-2.0+
 * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -82,17 +82,19 @@ function create_table_custom_form()
         // Data gaya kustom
         $style_data = array(
             'title' => 'Contact Us',
-            'title_size' => 'h1',
+            'title_size' => 'h3',
             'title_fam' => 'sans-serif',
             'title_color' => '#000000',
             'font_fam' => 'sans-serif',
             'padding' => '10px',
             'ft_color' => '#000000',
-            'backround_color' => '#000000',
-            'font_color' => '#000000',
-            'hover_color' => '#fafafa',
-            'font_hover' => '#de1414',
+            'backround_color' => '#fd841f',
+            'font_color' => '#ffffff',
+            'hover_color' => '#22A39F',
+            'font_hover' => '#ffffff',
             'border' => '1px solid #d2d2d2',
+            'text_alignment' => 'text-center',
+            'button_alignment' => 'text-end',
         );
 
         $json_style_data = json_encode($style_data);
