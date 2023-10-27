@@ -40,7 +40,7 @@ $css_data = json_decode($data->style_form, true); {
                                     </div>';
                                 }
                                 if ($address) {
-                                     echo '<div class="form-group">
+                                    echo '<div class="form-group">
                                         <label for="recipient-name" class="col-form-label">Addres</label>
                                         <input type="text" class="form-control" id="address" name="address" placeholder="Address" autocomplete="off" maxlength="80">
                                     </div>';
@@ -74,7 +74,27 @@ $css_data = json_decode($data->style_form, true); {
     </body>
     <script>
         ClassicEditor
-            .create(document.querySelector('#editor'))
+            .create(document.querySelector('#editor'), {
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'undo',
+                        'redo'
+                    ]
+                },
+                image: {
+                    toolbar: [
+                        'imageTextAlternative'
+                    ]
+                }
+            })
             .catch(error => {
                 console.error(error);
             });
