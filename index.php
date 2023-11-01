@@ -1,10 +1,10 @@
 <?php
 /*
-* Plugin Name: SMT - Contact - Form
-* Plugin URI: https://github.com/Denngrh/Smt-Contact-Form
+* Plugin Name: Contact Form
+* Plugin URI: https://github.com/Denngrh/Contact-Form
 * Description: Plugin Contact Form adalah plugin untuk membuat dan mengelola formulir kontak yang dapat  disesuaikan di situs web WordPress Anda. Pengguna dapat dengan mudah mengatur tampilan formulir,mengaktifkan pengiriman email melalui protokol SMTP, dan mengintegrasikan formulir dengan akun Gmail mereka. 
 * Author: Baden Nugraha
-* Version: 2.1.1
+* Version: 2.1
 * Author URI: https://github.com/Denngrh
 * License: GPL-2.0+
 * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -20,7 +20,7 @@ function create_table()
     global $wpdb;
     $table_name = $wpdb->prefix . "contact_form";
     $sql = "CREATE TABLE $table_name (
-        id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        id int(11) unsigned NOT NULL AUTO_INCREMENT,
         name varchar(50) DEFAULT NULL,
         address varchar(80) DEFAULT NULL,
         phone varchar(50) DEFAULT NULL,
@@ -41,7 +41,7 @@ function create_setting()
     $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$setting_table'") === $setting_table;
     if (!$table_exists) {
         $sql = "CREATE TABLE $setting_table (
-            id_setting bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            id_setting int(11) unsigned NOT NULL AUTO_INCREMENT,
             username varchar(50) NOT NULL,
             password varchar(50) NOT NULL,
             host varchar(80) NOT NULL,

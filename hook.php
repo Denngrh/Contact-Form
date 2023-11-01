@@ -100,7 +100,7 @@ function insert_data_callback()
     $query = "SELECT * FROM $kirim_table";
     $results = $wpdb->get_results($query);
 
-    // Buat flag untuk menentukan apakah pengiriman email berhasil atau tidak
+    // Buat proses untuk menentukan apakah pengiriman email berhasil atau tidak
     $email_sent = false;
 
     if ($results) {
@@ -119,9 +119,9 @@ function insert_data_callback()
             $mail->Username = $smtp_username;
             $mail->Password = $smtp_password;
             $mail->Port = $smtp_port;
-            $mail->setFrom($smtp_username, 'Your Form');
+            $mail->setFrom($smtp_username, 'Contact Form');
             $mail->addAddress($to);
-            $mail->Subject = 'Send data';
+            $mail->Subject = 'Pernyataan pengguna';
             $body = '<html>
             <head>
                 <style>
@@ -148,11 +148,11 @@ function insert_data_callback()
                 <div class="container">
                     <div class="header">
                         <img src="https://github.com/Denngrh/Smt-Contact-Form/assets/112230212/43c74a3f-94e5-4973-8487-0c5e68526042" alt="Logo" class="logo">
-                        <h2 style="margin-top: 10px;">Thank You for Your Message</h2>
+                        <h2 style="margin-top: 10px;">Terima kasih untuk pesan Anda</h2>
                     </div>
                     <div class="message">
                         <p style="color: #333;">Hi ' . $first . ',</p>
-                        <p style="color: #333;">Thank you for your message. Here are the details you provided:</p>
+                        <p style="color: #333;">Terima kasih untuk pesan Anda. Berikut detail yang Anda berikan:</p>
                         <ul>
                             <li><strong>Name:</strong> ' . $first . '</li>
                             <li><strong>Address:</strong> ' . $address . '</li>
@@ -160,7 +160,7 @@ function insert_data_callback()
                             <li><strong>Email:</strong> ' . $email . '</li>
                             <li><strong>Message:</strong> ' . $pesan . '</li>
                         </ul>
-                        <p style="color: #333;">Thank you for sending the message.</p>
+                        <p style="color: #333;">Terima kasih telah mengirimkan pesannya.</p>
                     </div>
                 </div>
             </body>
@@ -282,7 +282,7 @@ function ambil_data_callback()
         $pdg = $_POST['padding'] . 'px';
         $font_fam = $_POST['font_fam'];
         $ft = $_POST['ft_color'];
-        $border = sanitize_text_field($_POST['border_option']);
+        $border = $_POST['border_option'];
         $btn_clr = $_POST['button_color'];
         $ft_clr = $_POST['font_color'];
         $btn_clr_hover = $_POST['button_color_hover'];
@@ -290,8 +290,6 @@ function ambil_data_callback()
         $text_alignment = $_POST['text_alignment'];
         $button_alignment = $_POST['button_alignment'];
 
-
-        // Retrieve the current CSS values from the database
         global $wpdb;
         $existing_css = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}custom_form WHERE id_style = $id", ARRAY_A);
 
@@ -317,37 +315,26 @@ function ambil_data_callback()
             $json_data['button_alignment'] = $button_alignment;
 
             if (isset($_POST['check_first']) && $_POST['check_first'] === 'on') {
-                // Checkbox tercentang, lakukan sesuatu
                 update_option('check_first_option', true);
             } else {
-                // Checkbox tidak tercentang, lakukan sesuatu
                 update_option('check_first_option', false);
             }
-
-            //address
+           
             if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
-                // Checkbox tercentang, lakukan sesuatu
                 update_option('check_address_option', true);
             } else {
-                // Checkbox tidak tercentang, lakukan sesuatu
                 update_option('check_address_option', false);
             }
 
-            //address
             if (isset($_POST['check_number']) && $_POST['check_number'] === 'on') {
-                // Checkbox tercentang, lakukan sesuatu
                 update_option('check_number_option', true);
             } else {
-                // Checkbox tidak tercentang, lakukan sesuatu
                 update_option('check_number_option', false);
             }
 
-            //address
             if (isset($_POST['check_email']) && $_POST['check_email'] === 'on') {
-                // Checkbox tercentang, lakukan sesuatu
                 update_option('check_email_option', true);
             } else {
-                // Checkbox tidak tercentang, lakukan sesuatu
                 update_option('check_email_option', false);
             }
 
@@ -373,41 +360,30 @@ function ambil_data_callback()
 function save_settings()
 {
     if (isset($_POST['check_first']) && $_POST['check_first'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
         update_option('check_first_option', true);
     } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
         update_option('check_first_option', false);
     }
-
-    //address
+   
     if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
         update_option('check_address_option', true);
     } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
         update_option('check_address_option', false);
     }
-
-    //address
+   
     if (isset($_POST['check_number']) && $_POST['check_number'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
         update_option('check_number_option', true);
     } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
         update_option('check_number_option', false);
     }
 
-    //address
     if (isset($_POST['check_email']) && $_POST['check_email'] === 'on') {
-        // Checkbox tercentang, lakukan sesuatu
         update_option('check_email_option', true);
     } else {
-        // Checkbox tidak tercentang, lakukan sesuatu
+
         update_option('check_email_option', false);
     }
 
-    // Redirect ke halaman lain setelah form disimpan
     wp_redirect(admin_url('admin.php?page=example'));
     exit;
     wp_die();
@@ -426,7 +402,6 @@ function display_page_template($template)
 }
 
 add_action('admin_post_save_settings', 'save_settings');
-
 add_filter('template_include', 'display_page_template');
 
 //AMBIL DATA
