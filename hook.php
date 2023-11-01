@@ -86,6 +86,25 @@ function insert_data_callback()
     $email = sanitize_text_field($_POST['email']);
     $pesan = sanitize_text_field($_POST['text']);
 
+     // Validasi apakah pesan kosong
+     if (empty($pesan)) {
+        echo "
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css'>
+        <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Isi semua form',
+                }).then(function() {
+                    window.history.back();
+                });
+            });
+        </script>";
+        return; // Hentikan eksekusi jika pesan kosong
+    }
+
     // Query untuk insert data
     $data = array(
         'name' => $first,
