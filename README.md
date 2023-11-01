@@ -48,26 +48,26 @@ Plugin Contact Form adalah plugin untuk membuat dan mengelola formulir kontak ya
 </details>
 
 ## Instalasi
-Instructions for how to install a WordPress plugin that is stored in a Github
+Petunjuk cara install plugin WordPress yang disimpan di Github
 
-There are two ways to do it:
+Ada dua cara untuk melakukannya:
 1. [Installing via ZIP](#installing-via-zip)
 1. [Installing via Git](#installing-via-git)
 
 ## Installing via ZIP
 
-1. Click the **Download ZIP** button or click the download link:
-[Link Download zip](https://github.com/Denngrh/Smt-Slider/archive/refs/heads/main.zip) <br>
-![Screenshot from 2023-08-02 09-32-59](https://github.com/Denngrh/Smt-Slider/assets/112230212/c64a4477-d161-4d54-9e53-5989d6dfe4db)
+1. Klik tombol **Unduh ZIP** atau klik tautan unduh:
+[Link Download zip](https://github.com/Denngrh/Contact-Form/archive/refs/heads/main.zip) <br>
+![Screenshot from 2023-11-01 14-33-33](https://github.com/Denngrh/Contact-Form/assets/112230212/263ea24a-bfd1-4ca6-9483-39cd32369d51)
 
-3. In the WordPress admin, go to **Plugins > Add New**:  
+3. Di admin WordPress, buka **Plugin > Tambah Baru**:  
 ![image](https://user-images.githubusercontent.com/134745/78461681-b58af980-76ba-11ea-9708-a74b88fb8ce4.png)
 
 4. Click **Upload Plugin**:  
 ![image](https://user-images.githubusercontent.com/134745/78461697-cc315080-76ba-11ea-9b1b-ea4034a31079.png)
 
-5. Choose the ZIP file you downloaded and click **Install Now**:
-![image](https://github.com/Denngrh/Smt-Slider/assets/112230212/8f1007e3-6c09-4865-992d-22d065016b15)
+5. Pilih file ZIP yang Anda unduh dan klik **Instal Sekarang**:
+![Screenshot from 2023-11-01 14-38-23](https://github.com/Denngrh/Contact-Form/assets/112230212/ac208686-d4ef-4c37-90ea-d5889a8cef7f)
 
 7. Click **Activate Plugin**:  
 ![image](https://user-images.githubusercontent.com/134745/78461730-1f0b0800-76bb-11ea-81f0-1f4f28e49df1.png)
@@ -75,17 +75,17 @@ There are two ways to do it:
 ## Installing via Git
 
 1. Click the **code** dropdown and select **Clone via SSH** (or **Clone via HTTPS**):  
-![Screenshot from 2023-08-02 09-44-16](https://github.com/Denngrh/Smt-Slider/assets/112230212/fd05c16b-0cbb-4087-a421-570089911c74)
+![Screenshot from 2023-11-01 14-43-30](https://github.com/Denngrh/Contact-Form/assets/112230212/42e1a640-892f-42ed-b479-9e2d1fc09c62)
 
-2. Click the button to copy to the clipboard:  
-![Screenshot from 2023-08-02 09-46-44](https://github.com/Denngrh/Smt-Slider/assets/112230212/e713a7ba-fe9d-419b-8937-72957344f797)
+2. Klik tombol untuk menyalin ke clipboard:  
+![Screenshot from 2023-11-01 14-44-19](https://github.com/Denngrh/Contact-Form/assets/112230212/83f484ba-8259-4c81-9787-311bfad4d3b2)
 
-3. Open the `plugins` directory on the terminal command line for your WordPress install.
 
-4. Do `git clone {url} {slug}` where `{url}` is the Gist SSH URL which you copied to the clipboard and `{slug}` is the name you want to use. You can leave out `{slug}` if you want, but then the slug of the plugin will be something like `Smt-Slider` instead of `my-plugin-doing-something`.
+3.Buka direktori `plugins` pada baris perintah terminal untuk instalasi WordPress Anda.
 
-5. Then activate the plugin either via the WordPress admin or via WP-CLI test (e.g. `wp plugin activate {slug}`).
+4. Lakukan `git clone {url} {slug}` dengan `{url}` adalah URL Inti SSH yang Anda salin ke clipboard dan `{slug}` adalah nama yang ingin Anda gunakan. Anda dapat mengabaikan `{slug}` jika Anda mau, tetapi slug pluginnya akan berupa `Contact-Form` dan bukan `my-plugin-doing-something`.
 
+5. Kemudian aktifkan plugin melalui admin WordPress atau melalui tes WP-CLI (misalnya `wp plugin activation {slug}`).
 
 
 ## License
