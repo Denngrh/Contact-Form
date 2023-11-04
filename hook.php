@@ -50,7 +50,7 @@ function example()
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Setting SMTP Dulu!!',
+                    html: '<b>SETTING SMTP DULU !!</b>',
                     iconHtml: '<i class="fa-solid fa-exclamation" style="color: ##F27474;"></i>',
                 }).then(function() {
                     window.location = "<?php echo admin_url('admin.php?page=Smtp-setting'); ?>";
@@ -61,6 +61,71 @@ function example()
     } else {
         include('views/for_shortcode.php');
     }
+}
+
+function add_plugin_to_admin_bar($wp_admin_bar)
+{
+    // Tambahkan tautan utama
+    $wp_admin_bar->add_menu(array(
+        'id' => 'contact',
+        'title' => 'Contact Form',
+        'href' => admin_url('admin.php?page=Dashbord'),
+        'parent' => 'new-content'
+    ));
+}
+
+function menubar($wp_admin_bar)
+{
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'contact_form';
+    $entry_count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+    // Tambahkan tautan utama
+    $wp_admin_bar->add_menu(array(
+        'id' => 'id',
+        'title' => '<span style="float: left;">Contact Form</span>'. ($entry_count > 0 ? '<span class="ab-icon" style="margin-left: 8px; float: right; color: red; font-size: 20px;">' . esc_html($entry_count) . '</span>' : ''),
+        'href' => admin_url('admin.php?page=Dashbord'),
+    ));
+    // Tambahkan submenu di bawah tautan utama
+    $wp_admin_bar->add_menu(array(
+        'parent' => 'id',
+        'id' => 'submenu-id',
+        'title' => 'Hasil Terkirim <span class="ping"></span>',
+        'href' => admin_url('admin.php?page=Contact'),
+    ));
+}
+
+function admin_bar_custom_css()
+{
+    echo '<style>
+    .ping {
+        display: inline-flex;
+        align-items: center;
+        margin-left: auto; 
+    }
+    
+    .ping::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background: red;
+        border-radius: 50%;
+        animation: ping 2s infinite;
+        animation-timing-function: ease-out;
+        margin-left: 45px;
+    }
+
+    @keyframes ping {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+    }
+    </style>';
 }
 
 //INSERT DATA 
@@ -84,10 +149,11 @@ function insert_data_callback()
     $address = sanitize_text_field($_POST['address']);
     $number = sanitize_text_field($_POST['number']);
     $email = sanitize_text_field($_POST['email']);
-    $pesan = sanitize_text_field($_POST['text']);
+    $pesan = sanitize_text_field($_POST['text']); 
+    // $pesan = $_POST['text']; // Untuk send clasic editor
 
-     // Validasi apakah pesan kosong
-     if (empty($pesan)) {
+    // Validasi apakah pesan kosong
+    if (empty($pesan)) {
         echo "
         <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css'>
         <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js'></script>
@@ -96,7 +162,7 @@ function insert_data_callback()
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Isi semua form',
+                    html: '<b>FORM TIDAK BOLEH KOSONG!!</b>',
                 }).then(function() {
                     window.history.back();
                 });
@@ -223,7 +289,7 @@ function insert_data_callback()
                     Swal.fire({
                         icon: 'success',
                         title: 'Success!!',
-                        text: 'Telah berhasil kirim',
+                        html: '<b>TEXT BERHASIL DIKIRIM!!</b>',
                         timer: 2000,
                     }).then(function() {
                         window.history.back();
@@ -338,7 +404,7 @@ function ambil_data_callback()
             } else {
                 update_option('check_first_option', false);
             }
-           
+
             if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
                 update_option('check_address_option', true);
             } else {
@@ -383,13 +449,13 @@ function save_settings()
     } else {
         update_option('check_first_option', false);
     }
-   
+
     if (isset($_POST['check_address']) && $_POST['check_address'] === 'on') {
         update_option('check_address_option', true);
     } else {
         update_option('check_address_option', false);
     }
-   
+
     if (isset($_POST['check_number']) && $_POST['check_number'] === 'on') {
         update_option('check_number_option', true);
     } else {
@@ -419,6 +485,10 @@ function display_page_template($template)
     }
     return $template;
 }
+
+add_action('admin_bar_menu', 'add_plugin_to_admin_bar', 999);
+add_action('admin_head', 'admin_bar_custom_css');
+add_action('admin_bar_menu', 'menubar', 999);
 
 add_action('admin_post_save_settings', 'save_settings');
 add_filter('template_include', 'display_page_template');

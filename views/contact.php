@@ -214,8 +214,8 @@
                 event.preventDefault();
                 const url = this.getAttribute("href");
                 Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
+                    title: "Apa kamu yakin?",
+                    html: '<b>ANDA TIDAK AKAN DAPAT MENGEMBALIKAN INI!!</b>',
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",

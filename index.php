@@ -14,6 +14,24 @@ require_once(dirname(__FILE__) . '/hook.php');
 
 require_once(dirname(__FILE__) . '/shortcode.php');
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+function redirect() {
+    add_option('custom_plugin_activated', true); 
+}
+
+// code redirect to dashboard
+function custom_plugin_redirect() {
+    if (get_option('custom_plugin_activated')) {
+        delete_option('custom_plugin_activated'); // Hapus opsi aktivasi
+        wp_safe_redirect(admin_url('admin.php?page=Dashbord')); 
+        exit;
+    }
+}
+
 //create table Contact-Form
 function create_table()
 {
@@ -114,32 +132,13 @@ function create_table_custom_form()
     }
 }
 
-
-
-//Delete Custom
-function drop_table_uninstall()
-{
-    global $wpdb;
-    $table1 = $wpdb->prefix . 'contact_form'; // Nama tabel pertama
-    $table2 = $wpdb->prefix . 'setting_form'; // Nama tabel kedua
-    $table3 = $wpdb->prefix . 'custom_form'; // Nama tabel ketiga
-
-    // Hapus tabel pertama dari database
-    $wpdb->query("DROP TABLE IF EXISTS $table1");
-
-    // Hapus tabel kedua dari database
-    $wpdb->query("DROP TABLE IF EXISTS $table2");
-
-    // Hapus tabel ketiga dari database
-    $wpdb->query("DROP TABLE IF EXISTS $table3");
-}
-
-
 //custom_tabel
 register_activation_hook(__FILE__, 'create_table_custom_form');
 //setting tabel
 register_activation_hook(__FILE__, "create_setting");
 //action tabel
 register_activation_hook(__FILE__, "create_table");
-// Uninstall
-register_uninstall_hook(__FILE__, "drop_table_uninstall");
+//redirect
+register_activation_hook(__FILE__, 'redirect');
+// fungsi redirect
+add_action('admin_init', 'custom_plugin_redirect');
