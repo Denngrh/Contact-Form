@@ -387,6 +387,10 @@ $css_data = json_decode($data->style_form, true); {
 
 
     <style>
+        #wpfooter {
+            display: none;
+        }
+
         .ck-editor__editable[role="textbox"] {
             /* editing area */
             min-height: 100px;

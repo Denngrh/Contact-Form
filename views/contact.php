@@ -142,6 +142,10 @@
         align-items: center;
     }
 
+    #wpfooter {
+        display: none;
+    }
+
     .dataTables_length label {
         margin-right: 10px;
     }
@@ -170,6 +174,7 @@
         border-color: #007bff;
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
+
     .dataTables_wrapper .dataTables_paginate .paginate_button.previous,
     .dataTables_wrapper .dataTables_paginate .paginate_button.next {
         background-color: #FD841F;
@@ -182,10 +187,12 @@
         border-radius: 5px;
         margin-top: -20px !important;
     }
+
     .dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover,
     .dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
         background-color: #c9dd00;
     }
+
     .dataTables_wrapper .dataTables_paginate .paginate_button.previous.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.next.current {
         background-color: #c9dd00;

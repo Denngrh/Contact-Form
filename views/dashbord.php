@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="row">
-            <div class="card col-md-5" style="background-color:#EDEDED;border:none;">
+                <div class="card col-md-5" style="background-color:#EDEDED;border:none;">
                     <div class="card-body">
                         <h5 class="card-title">Hasil Terkirim</h5>
                         <p class="card-text">Hasil terkirim adalah hasil dari kita menginput data yang jika berhasil maka akan masuk kedalam halaman hasil.</p>
@@ -93,6 +93,10 @@
 <style>
     .colored-toast.swal2-icon-success {
         background-color: #fd841f !important;
+    }
+
+    #wpfooter {
+        display: none;
     }
 
     .colored-toast {

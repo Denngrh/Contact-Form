@@ -110,6 +110,10 @@ $css_data = json_decode($data->style_form, true); {
     </script>
 
     <style>
+        #wpfooter {
+            display: none;
+        }
+
         .ck-editor__editable[role="textbox"] {
             color: black;
             background-color: white;
